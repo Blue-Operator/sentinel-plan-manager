@@ -39,9 +39,11 @@ for the source's mono on addresses/codes.
   `-apple-system → Segoe UI → Roboto → sans-serif`.
   - Applied universally via `*, *::before, *::after { font-family: 'Poppins'
     ... !important }` near the top of the `<style>` block.
-  - Headings (`h1`, `h2`, `h3`, `.page-hero-title`) are forced to `Poppins`
-    **600** (SemiBold, the dVPN heading weight) with `-0.2px` tracking. The
-    dominant UI weight is Medium **500**.
+  - **Weight ceiling: Medium (500).** Nothing renders heavier than 500
+    anywhere — no SemiBold/Bold. Headings, buttons, stat values, card
+    titles and the wallet balance are all 500; `b`/`strong`/`th` are
+    normalised to 500 too. Hierarchy comes from **size + colour**, not
+    weight. Regular (400) is used for body/secondary text.
   - Base body size `14px`, line-height `1.5`.
 - **Display numerics:** `Manrope` ExtraBold (`--font-num`) — reserved for
   large hero balances. Dense data-grid figures stay in mono so columns align
@@ -136,6 +138,14 @@ reference the `-dim` variant.
 
 ### Layout
 
+- **Consistent gutter:** `--gutter: 32px` is the single horizontal padding
+  shared by the topbar, demo banner and `.page` content, so every page's
+  content aligns under the header. Page vertical padding:
+  `--page-pad-top: 22px` / `--page-pad-bottom: 28px`.
+- **Card padding:** centralised — `--card-pad-x: 20px` (header + body
+  horizontal), `--card-pad-y: 18px` (body vertical),
+  `--card-head-pad-y: 16px` (header vertical). All cards across all pages use
+  these; `.card-body.tight` (`14px 16px`) is the only denser variant.
 - **Shell:** `--sidebar-w: 272px` left sidebar + `--header-h: 84px` topbar.
   (Token values; do not hardcode `240px` / `64px` — these have been
   widened from defaults for the dense Plan Manager nav.)
