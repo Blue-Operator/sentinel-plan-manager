@@ -6834,13 +6834,16 @@ function renderCliCommands() {
   const sectionHtml = sections.map(sec => {
     const rows = sec.rows.map(([cmd, desc]) =>
       `<tr>
-        <td style="font-family:ui-monospace,monospace;color:var(--accent);padding:8px 16px 8px 0;vertical-align:top;font-size:13px;white-space:nowrap">${cmd}</td>
-        <td style="padding:8px 0;color:var(--text-dim);font-size:13px;vertical-align:top">${desc}</td>
+        <td style="font-family:var(--font-mono);color:var(--accent);padding:8px 16px 8px 0;vertical-align:top;font-size:13px;line-height:1.5;word-break:break-word">${cmd}</td>
+        <td style="padding:8px 0;color:var(--text-dim);font-size:13px;line-height:1.5;vertical-align:top">${desc}</td>
       </tr>`
     ).join('');
     return `<div class="stat-card" style="margin-bottom:14px;padding:18px">
       <div style="font-weight:500;color:var(--text);margin-bottom:10px">${sec.title}</div>
-      <table style="width:100%;border-collapse:collapse">${rows}</table>
+      <table style="width:100%;border-collapse:collapse;table-layout:fixed">
+        <colgroup><col style="width:340px"><col></colgroup>
+        ${rows}
+      </table>
     </div>`;
   }).join('');
 
