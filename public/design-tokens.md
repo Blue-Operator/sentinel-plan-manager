@@ -10,35 +10,57 @@ behaves. Every visual rule below is enforced via CSS variables in
 in the CSS. Do not ship a colour, radius, or spacing value that isn't in this
 table.
 
+> **2026-06 — Sentinel dVPN App Design System reskin.** The palette and type
+> were retoned to match the **Sentinel dVPN App Design System** (the mobile
+> client's Figma source). The source-of-truth tokens now live in the
+> `:root` block of `public/index.html` as a two-layer system:
+>
+> - **Base palette** — `--sentinel-*` (e.g. `--sentinel-brand-600: #0156FC`,
+>   `--sentinel-surface-2: #191F31`). Extracted verbatim from the dVPN Figma.
+> - **Semantic aliases** — `--color-*` (e.g. `--color-primary`,
+>   `--color-surface`, `--color-text-secondary`) plus the legacy app
+>   variables below (`--bg`, `--accent`, …) which now resolve **onto** the
+>   `--sentinel-*` base. Build new UI against the semantic aliases.
+>
+> The values in the tables below reflect the dVPN palette.
+
 ---
 
 ## Plan Manager design tokens
 
 ### Font stack
 
-- **UI / display:** `Europa` (Bold 700, loaded as `@font-face` from
-  `/fonts/europa-bold.ttf`), fallback `-apple-system → Segoe UI → Roboto →
-  sans-serif`.
-  - Applied universally via `*, *::before, *::after { font-family: 'Europa'
-    ... !important }` at `public/index.html:117`.
-  - Headings (`h1`, `h2`, `h3`, `.page-hero-title`) are forced to `Europa`
-    700 at line 118. No weight variance; we lean on size + letter-spacing
-    for hierarchy.
-  - Base body size `14px`, line-height `1.5`.
-- **Monospace (addresses, hashes, denoms, code):** `Noto Sans Mono` (loaded
-  from jsDelivr CDN, weight 400), fallback `Liberation Mono → Consolas →
-  ui-monospace → monospace`.
-  - Exposed via `.mono` class and `var(--font-mono)`.
-- **Font vars:**
-  - `--font-display: 'Europa', -apple-system, 'Segoe UI', Roboto, sans-serif`
-  - `--font-serif:   'Europa', -apple-system, 'Segoe UI', sans-serif`
-    (alias; we don't currently ship a serif — kept for future variants)
-  - `--font-mono:    'Noto Sans Mono', 'Liberation Mono', Consolas,
-    ui-monospace, monospace`
+The dVPN source face is **TT Hoves** (commercial); per the design-system
+handoff it is substituted with **Poppins** (Google Fonts). **Manrope** is
+genuine to the source for large display numerics; **Roboto Mono** stands in
+for the source's mono on addresses/codes.
 
-**Rule:** one font family for every human-readable string; one for every
-machine string. No third family, no Google-sans variety, no icon-font
-requirement. We removed Filson Soft on 2026-04-22 — do not reintroduce it.
+- **UI / display:** `Poppins` (Google Fonts: 400/500/600/700), fallback
+  `-apple-system → Segoe UI → Roboto → sans-serif`.
+  - Applied universally via `*, *::before, *::after { font-family: 'Poppins'
+    ... !important }` near the top of the `<style>` block.
+  - Headings (`h1`, `h2`, `h3`, `.page-hero-title`) are forced to `Poppins`
+    **600** (SemiBold, the dVPN heading weight) with `-0.2px` tracking. The
+    dominant UI weight is Medium **500**.
+  - Base body size `14px`, line-height `1.5`.
+- **Display numerics:** `Manrope` ExtraBold (`--font-num`) — reserved for
+  large hero balances. Dense data-grid figures stay in mono so columns align
+  (per the dVPN "figures read as data" rule).
+- **Monospace (addresses, hashes, denoms, code):** `Roboto Mono` (Google
+  Fonts, 400/500/700) → falls back to `Noto Sans Mono → Liberation Mono →
+  Consolas → ui-monospace`. Exposed via `.mono` / `.mono-inline` / `code`
+  (forced with `!important` so it escapes the universal Poppins rule) and
+  `var(--font-mono)`.
+- **Font vars:**
+  - `--font-display: 'Poppins', -apple-system, 'Segoe UI', Roboto, sans-serif`
+  - `--font-serif:   'Poppins', -apple-system, 'Segoe UI', sans-serif` (alias)
+  - `--font-num:     'Manrope', 'Poppins', -apple-system, sans-serif`
+  - `--font-mono:    'Roboto Mono', 'Noto Sans Mono', 'Liberation Mono',
+    Consolas, ui-monospace, monospace`
+
+**Rule:** Poppins for every human-readable string; Roboto Mono for every
+machine string; Manrope only for large hero numerics. No other families, no
+icon-font requirement. (Europa was the pre-reskin face — do not reintroduce.)
 
 ### Themes
 
@@ -57,33 +79,35 @@ requirement. We removed Filson Soft on 2026-04-22 — do not reintroduce it.
 
 | Var | Dark | Light | Use |
 |-----|------|-------|-----|
-| `--bg` | `#060608` | `#f6f7fb` | Page background |
-| `--bg-base` | `#060608` | `#f6f7fb` | Solid background under glass layers |
-| `--bg-card` | `rgba(16,16,20,0.72)` | `rgba(255,255,255,0.92)` | Card surface (glass) |
-| `--bg-card-solid` | `#0d0d12` | `#ffffff` | Solid card when glass would be illegible |
-| `--bg-card-hover` | `rgba(26,26,34,0.82)` | `#f1f3f9` | Hover state on interactive cards |
-| `--bg-input` | `rgba(255,255,255,0.025)` | `rgba(10,14,30,0.04)` | Form inputs, code blocks |
-| `--glass-bg` | `rgba(14,14,20,0.82)` | `rgba(255,255,255,0.85)` | Sidebar, topbar, modals |
-| `--border` | `rgba(255,255,255,0.06)` | `rgba(10,14,30,0.08)` | Default divider |
-| `--border-hover` | `rgba(255,255,255,0.12)` | `rgba(10,14,30,0.16)` | Hover / focus outline |
-| `--border-strong` | `rgba(255,255,255,0.18)` | `rgba(10,14,30,0.22)` | Emphasised borders (warnings, selection) |
-| `--text` | `#f0f1f5` | `#0d1224` | Primary text |
-| `--text-dim` | `#8a8a9a` | `#4a5068` | Secondary text |
-| `--text-muted` | `#55556a` | `#8a90a5` | Placeholders, disabled, meta |
-| `--accent` | `#1E88E5` | `#1E88E5` | Sentinel blue — primary actions, links |
-| `--accent-bright` | `#4aa4ec` | `#1d78cc` | Hover accent |
-| `--accent-glow` | `rgba(30,136,229,0.18)` | `rgba(30,136,229,0.12)` | Soft ambient glow behind accent elements |
-| `--accent-dim` | `rgba(30,136,229,0.12)` | `rgba(30,136,229,0.08)` | Accent fill on badges / chips |
-| `--accent-hover` | `#4aa4ec` | (inherits accent) | Button hover |
-| `--green` | `#00c853` | `#00944a` | Success, registered state |
-| `--green-bright` | `#00e676` | `#00a656` | Success hover / emphasis |
-| `--green-dim` | `rgba(0,200,83,0.14)` | `rgba(0,148,74,0.10)` | Success badge fill |
-| `--red` | `#ff1744` | `#d81b3f` | Error, unregistered / destructive |
-| `--red-dim` | `rgba(255,23,68,0.12)` | `rgba(216,27,63,0.10)` | Error badge fill, danger callout bg |
-| `--yellow` | `#ff9100` | `#d97706` | Warning, low-balance, pending |
-| `--yellow-dim` | `rgba(255,145,0,0.14)` | `rgba(217,119,6,0.12)` | Warning badge / callout bg |
-| `--purple` | `#b388ff` | (dark-only) | Secondary accent (ambient gradients only) |
-| `--purple-dim` | `rgba(179,136,255,0.14)` | (dark-only) | Secondary gradient wash |
+| `--bg` | `#000610` | `#f4f6fc` | Page background (dVPN deep navy) |
+| `--bg-base` | `#000610` | `#f4f6fc` | Solid background under layered surfaces |
+| `--bg-card` | `rgba(19,24,41,0.82)` | `rgba(255,255,255,0.94)` | Card surface (surface-1 over navy) |
+| `--bg-card-solid` | `#131829` | `#ffffff` | Solid card (surface-1) |
+| `--bg-card-hover` | `rgba(25,31,49,0.92)` | `#eef1fb` | Hover state on interactive cards (surface-2) |
+| `--bg-input` | `#191F31` | `#ffffff` | Form inputs, code blocks (surface-2) |
+| `--glass-bg` | `rgba(10,14,26,0.90)` | `rgba(255,255,255,0.88)` | Sidebar, topbar, modals |
+| `--border` | `rgba(38,48,76,0.55)` | `rgba(31,54,124,0.12)` | Default divider (surface-3 hairline) |
+| `--border-hover` | `rgba(38,48,76,0.95)` | `rgba(31,54,124,0.22)` | Hover / focus outline |
+| `--border-strong` | `#1F367C` | `#1F367C` | Emphasised borders (indigo brand stroke) |
+| `--text` | `#FFFFFF` | `#00102e` | Primary text |
+| `--text-dim` | `#9CABC9` | `#44516e` | Secondary text (slate-400) |
+| `--text-muted` | `#6B7A97` | `#6B7A97` | Placeholders, disabled, meta (slate-500) |
+| `--accent` | `#0156FC` | `#0156FC` | dVPN brand blue — primary actions |
+| `--accent-bright` | `#0184FC` | `#0046CE` | Interactive blue — links / hover |
+| `--accent-glow` | `rgba(1,86,252,0.20)` | `rgba(1,86,252,0.12)` | Soft ambient glow behind accent elements |
+| `--accent-dim` | `rgba(1,86,252,0.14)` | `rgba(1,86,252,0.08)` | Accent fill on badges / chips / active nav |
+| `--accent-hover` | `#0184FC` | `#0046CE` | Button hover |
+| `--green` | `#1FD18B` | `#0a9f63` | Success, registered state (cooled for navy) |
+| `--green-bright` | `#34E89C` | `#08b06c` | Success hover / emphasis |
+| `--green-dim` | `rgba(31,209,139,0.14)` | `rgba(10,159,99,0.10)` | Success badge fill |
+| `--red` | `#D35D5D` | `#c2424a` | Error / destructive (dVPN danger) |
+| `--red-strong` | `#9E1C29` | `#9E1C29` | Strong error fill (dVPN danger-strong) |
+| `--red-dim` | `rgba(211,93,93,0.16)` | `rgba(194,66,74,0.10)` | Error badge fill, danger callout bg |
+| `--yellow` | `#C4B130` | `#9a7b14` | Warning, low-balance, pending (dVPN gold) |
+| `--yellow-bright` | `#F4EB34` | `#c4b130` | Highlight accent (dVPN accent-yellow) |
+| `--yellow-dim` | `rgba(196,177,48,0.16)` | `rgba(196,177,48,0.14)` | Warning badge / callout bg |
+| `--purple` | `#3B84EB` | `#3B84EB` | Ambient gradient accent (dVPN brand-400) |
+| `--purple-dim` | `rgba(59,132,235,0.14)` | `rgba(59,132,235,0.10)` | Secondary gradient wash |
 
 **Variant convention:** every semantic colour ships with a `-glow` and/or
 `-dim` soft variant for ambient fills (backgrounds behind a badge, glow
@@ -94,20 +118,21 @@ reference the `-dim` variant.
 
 | Var | Value | Use |
 |-----|-------|-----|
-| `--radius-lg` | `16px` | Hero cards, large surfaces |
-| `--radius`    | `12px` | Default card / input / button |
-| `--radius-sm` | `8px`  | Compact chips, small inputs |
-| `--radius-xs` | `4px`  | Tag corners, tight decorative cuts |
+| `--radius-lg`   | `16px`  | Hero cards, large surfaces / sheets |
+| `--radius`      | `10px`  | Default card |
+| `--radius-sm`   | `8px`   | dVPN default — buttons, inputs, tags, chips |
+| `--radius-xs`   | `4px`   | Tag corners, scrollbar thumb |
+| `--radius-pill` | `999px` | Switch tracks, status pills |
 
 ### Elevation (shadows)
 
 | Var | Dark | Light | Use |
 |-----|------|-------|-----|
-| `--shadow-sm` | `0 2px 8px rgba(0,0,0,0.25)` | `0 2px 8px rgba(10,14,30,0.06)` | Resting card |
-| `--shadow-md` | `0 8px 24px rgba(0,0,0,0.35)` | `0 8px 24px rgba(10,14,30,0.10)` | Hover, modals |
-| `--shadow-lg` | `0 20px 60px rgba(0,0,0,0.55)` | `0 20px 50px rgba(10,14,30,0.14)` | Top-level overlays (import, low-balance) |
-| `--shadow-accent` | `0 0 32px rgba(30,136,229,0.22)` | `0 0 28px rgba(30,136,229,0.18)` | Glow under primary CTAs |
-| `--shadow-green`  | `0 0 28px rgba(0,200,83,0.22)`  | `0 0 24px rgba(0,148,74,0.16)`  | Glow under success states |
+| `--shadow-sm` | `0 2px 8px rgba(0,6,16,0.35)` | `0 2px 8px rgba(0,16,46,0.06)` | Resting card (cool navy) |
+| `--shadow-md` | `0 8px 24px rgba(0,6,16,0.45)` | `0 8px 24px rgba(0,16,46,0.10)` | Hover, modals (dVPN card shadow) |
+| `--shadow-lg` | `0 20px 60px rgba(0,6,16,0.60)` | `0 20px 50px rgba(0,16,46,0.14)` | Top-level overlays (import, low-balance) |
+| `--shadow-accent` | `0 2px 18px rgba(18,49,109,0.45)` | `0 2px 18px rgba(1,86,252,0.18)` | Glow under primary CTAs |
+| `--shadow-green`  | `0 0 24px rgba(31,209,139,0.20)`  | `0 0 24px rgba(10,159,99,0.16)`  | Glow under success states |
 
 ### Layout
 
@@ -117,9 +142,10 @@ reference the `-dim` variant.
 - **Page padding:** `28px` vertical / `32px` horizontal on `.page`
   containers. Compact pages use `.page-compact` (smaller card padding).
   Homepage uses `.page-home` (wider hero, centered stats row).
-- **Background wash:** two radial gradients layered on `body` — Sentinel
-  blue in the top-right, purple (dark) / green (light) in the bottom-left.
-  Fixed-attached so the wash stays put during scroll.
+- **Background wash:** two radial gradients layered on `body` — dVPN brand
+  blue (`#0156FC`) glow in the top-right, indigo (`#1F367C`) in the
+  bottom-left. Fixed-attached so the wash stays put during scroll. Mirrors
+  the dVPN home-screen "soft radial brand-blue glow."
 - **Max content width:** hero title container caps at `1100px`
   (`.page-home .page-hero`). Default `.page` inherits the shell width.
 
@@ -172,8 +198,9 @@ list before merge.
   token table above first.
 - **Light + dark tested visually.** Screenshot both themes for any UI
   change before merging. A forgotten var renders white-on-white silently.
-- **Font: `Europa` everywhere, `Noto Sans Mono` for machine strings.** No
-  third family. Do not reintroduce Filson Soft.
+- **Font: `Poppins` everywhere, `Roboto Mono` for machine strings**
+  (`Manrope` only for large hero numerics). No other families. Do not
+  reintroduce Europa or Filson Soft.
 - **Overflow visible on indicator bars.** Progress bars, status dots, and
   accent edges render outside their parent on purpose — a clipped glow is
   a bug.
