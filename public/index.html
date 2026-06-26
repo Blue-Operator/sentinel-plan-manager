@@ -3136,12 +3136,12 @@ select.input {
   -webkit-appearance: none;
   -moz-appearance: none;
   /* Remix-style line chevron, slate-500 at rest — matches the sidebar icon
-     language and the dVPN line-glyph set. Bumped to 16px / 2px stroke. */
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7A97' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+     language. URL-encoded (%3C/%3E) so it decodes reliably across engines. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7A97' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
   background-size: 16px 16px;
-  padding-right: 40px;
+  padding-right: 42px;
   color-scheme: dark;
   cursor: pointer;
 }
@@ -3150,10 +3150,10 @@ select.input:hover {
   border-color: var(--border-hover);
   background-color: var(--bg-card-hover);
 }
-/* Chevron turns brand blue on hover + focus — clear interactive feedback. */
+/* Chevron turns interactive blue on hover + focus — clear feedback. */
 select.input:hover,
 select.input:focus {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230156FC' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230184FC' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
 }
 html[data-theme="light"] select.input:hover { background-color: var(--bg-card-hover); }
 
