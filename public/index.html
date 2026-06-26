@@ -6715,7 +6715,7 @@ const GH_CLI_URL = `${OFFICIAL_REPO_URL}/blob/master/cli.js`;
 const GH_README_URL = `${OFFICIAL_REPO_URL}#cli`;
 
 function renderCliInstall() {
-  $('app').innerHTML = `<div class="page" style="max-width:980px">
+  $('app').innerHTML = `<div class="page" style="max-width:none">
     <div class="page-hero" style="margin-bottom:14px">
       <div class="page-hero-eyebrow">Plan Manager · CLI</div>
       <div class="page-hero-title">Install the <span class="mono-inline">plans</span> CLI</div>
@@ -6844,7 +6844,7 @@ function renderCliCommands() {
     </div>`;
   }).join('');
 
-  $('app').innerHTML = `<div class="page" style="max-width:980px">
+  $('app').innerHTML = `<div class="page" style="max-width:none">
     <div class="page-hero">
       <div class="page-hero-eyebrow">Plan Manager · CLI Reference</div>
       <div class="page-hero-title">CLI reference</div>
