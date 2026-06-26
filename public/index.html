@@ -1139,14 +1139,17 @@ html[data-theme="light"] .explorer-link { border-bottom-color: rgba(10,14,30,0.1
 .explorer-link-icon:hover { opacity: 1; color: var(--accent); }
 
 .wallet-bal {
-  font-family: var(--font-mono);
-  font-size: 21px;
-  font-weight: 700;
+  /* dVPN signature: the credit balance is the largest type, in Manrope
+     ExtraBold (--font-num). Forced past the universal Poppins rule. */
+  font-family: var(--font-num) !important;
+  font-size: 23px;
+  font-weight: 800;
   color: var(--text);
-  letter-spacing: -0.4px;
+  letter-spacing: -0.6px;
   line-height: 1.1;
   margin: 0;
   text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 
 .wallet-bal-usd {
@@ -2317,6 +2320,21 @@ html[data-theme="light"] .plan-card:hover {
 }
 
 /* ─── Home page — larger, more generous sizing to fill the viewport ─── */
+/* dVPN signature: the dashboard floats over a faint world-map canvas, the
+   same backdrop as the dVPN app home screen. Fixed, low-opacity, radially
+   masked so it never competes with content; scoped to the dashboard only. */
+.page-home::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg) url('/world-map.png') center top / cover no-repeat;
+  opacity: 0.22;
+  -webkit-mask-image: radial-gradient(130% 100% at 70% -8%, #000 0%, rgba(0,0,0,0.55) 50%, transparent 84%);
+          mask-image: radial-gradient(130% 100% at 70% -8%, #000 0%, rgba(0,0,0,0.55) 50%, transparent 84%);
+  pointer-events: none;
+}
+html[data-theme="light"] .page-home::before { opacity: 0.08; }
 .page-home .page-hero { margin: 6px auto 22px !important; gap: 10px !important; max-width: 1100px; }
 .page-home .page-hero-title { font-size: 34px; letter-spacing: -0.4px; white-space: nowrap; }
 .page-home .page-hero-sub { font-size: 15px; max-width: 760px; }
@@ -3004,6 +3022,12 @@ html[data-theme="light"] .tbl td { border-bottom-color: rgba(10,14,30,0.05); }
   background: var(--accent-bright);
   border-color: var(--accent-bright);
   box-shadow: var(--shadow-accent);
+}
+/* dVPN pressed state: the primary fill darkens to brand-700 */
+.btn-primary:active:not(:disabled) {
+  background: var(--color-primary-active);
+  border-color: var(--color-primary-active);
+  box-shadow: none;
 }
 
 .btn-ghost {
