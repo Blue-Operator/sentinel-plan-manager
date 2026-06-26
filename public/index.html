@@ -83,13 +83,14 @@
      ════════════════════════════════════════════════════════════════════ */
 
   /* Surfaces — navy, dark-mode-first, near-solid (no heavy glass) */
-  --bg: var(--sentinel-bg-base);
+  --bg: var(--sentinel-bg-base);             /* #000610 — page canvas */
   --bg-base: var(--sentinel-bg-base);
-  --bg-card: rgba(19, 24, 41, 0.82);      /* surface-1 over navy */
-  --bg-card-solid: var(--sentinel-surface-1);
-  --bg-card-hover: rgba(25, 31, 49, 0.92); /* surface-2 */
-  --bg-input: var(--sentinel-surface-2);
-  --glass-bg: rgba(10, 14, 26, 0.90);      /* sidebar / topbar / modals */
+  --bg-card: var(--sentinel-surface-2);      /* #191F31 — SOLID card, pops on the dark canvas */
+  --bg-card-solid: var(--sentinel-surface-2);
+  --bg-card-hover: var(--sentinel-surface-3);/* #26304C — raised / hover */
+  --bg-input: var(--sentinel-surface-1);     /* #131829 — recessed inside cards */
+  --glass-bg: var(--sentinel-surface-2);     /* #191F31 — floating panels (modal / login / batch bar / chips) */
+  --chrome-bg: var(--sentinel-bg-deep);      /* #000101 — sidebar + topbar (darkest app chrome) */
 
   /* Borders — surface-3 hairlines, indigo for strong */
   --border: rgba(38, 48, 76, 0.55);
@@ -104,8 +105,8 @@
   /* Accent — Sentinel dVPN brand blue */
   --accent: var(--sentinel-brand-600);
   --accent-bright: var(--sentinel-brand-500);
-  --accent-glow: rgba(1, 86, 252, 0.20);
-  --accent-dim: rgba(1, 86, 252, 0.14);
+  --accent-glow: rgba(1, 86, 252, 0.13);
+  --accent-dim: rgba(1, 86, 252, 0.12);
   --accent-hover: var(--sentinel-brand-500);
 
   /* Semantic accents (cooled to sit on navy; red/gold from dVPN palette) */
@@ -151,7 +152,7 @@
   --shadow-sm: 0 2px 8px rgba(0, 6, 16, 0.35);
   --shadow-md: 0 8px 24px rgba(0, 6, 16, 0.45);
   --shadow-lg: 0 20px 60px rgba(0, 6, 16, 0.60);
-  --shadow-accent: 0 2px 18px rgba(18, 49, 109, 0.45);
+  --shadow-accent: 0 2px 14px rgba(18, 49, 109, 0.28);
   --shadow-green: 0 0 24px rgba(31, 209, 139, 0.20);
 }
 
@@ -161,11 +162,12 @@
 html[data-theme="light"] {
   --bg: #f4f6fc;
   --bg-base: #f4f6fc;
-  --bg-card: rgba(255, 255, 255, 0.94);
+  --bg-card: #ffffff;
   --bg-card-solid: #ffffff;
   --bg-card-hover: #eef1fb;
-  --bg-input: #ffffff;
-  --glass-bg: rgba(255, 255, 255, 0.88);
+  --bg-input: #f1f4fc;
+  --glass-bg: #ffffff;
+  --chrome-bg: #ffffff;
 
   --border: rgba(31, 54, 124, 0.12);
   --border-hover: rgba(31, 54, 124, 0.22);
@@ -221,15 +223,15 @@ body {
   font-size: 14px;
   line-height: 1.5;
   background-image:
-    radial-gradient(1200px 620px at 78% -12%, rgba(1,86,252,0.14), transparent 60%),
-    radial-gradient(900px 520px at -10% 100%, rgba(31,54,124,0.18), transparent 60%);
+    radial-gradient(900px 440px at 88% -22%, rgba(1,86,252,0.06), transparent 55%),
+    radial-gradient(720px 420px at -14% 116%, rgba(31,54,124,0.07), transparent 58%);
   background-attachment: fixed;
 }
 
 html[data-theme="light"] body {
   background-image:
-    radial-gradient(1200px 600px at 80% -10%, rgba(1,86,252,0.07), transparent 60%),
-    radial-gradient(900px 500px at -10% 100%, rgba(1,132,252,0.05), transparent 60%);
+    radial-gradient(1000px 520px at 84% -16%, rgba(1,86,252,0.05), transparent 58%),
+    radial-gradient(820px 460px at -12% 110%, rgba(1,132,252,0.035), transparent 60%);
 }
 
 .mono { font-family: var(--font-mono); }
@@ -920,7 +922,7 @@ html[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: rgba(10,1
 /* ─── Sidebar ─── */
 .sidebar {
   width: var(--sidebar-w);
-  background: var(--glass-bg);
+  background: var(--chrome-bg);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -1309,7 +1311,7 @@ html[data-theme="light"] .explorer-link { border-bottom-color: rgba(10,14,30,0.1
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--gutter);
-  background: rgba(10, 14, 26, 0.72);
+  background: var(--chrome-bg);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   position: sticky;
@@ -1637,14 +1639,14 @@ html[data-theme="light"] .hero-info-pill { background: linear-gradient(135deg, r
   grid-template-columns: repeat(4, 1fr) auto;
   gap: 12px;
   align-items: center;
-  background: linear-gradient(135deg, rgba(1, 86, 252,0.06) 0%, rgba(1, 86, 252,0.01) 100%);
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 16px 18px;
   margin-bottom: 18px;
 }
 html[data-theme="light"] .your-plans-summary {
-  background: linear-gradient(135deg, rgba(1, 86, 252,0.08) 0%, rgba(1, 86, 252,0.02) 100%);
+  background: var(--bg-card);
 }
 .your-plans-summary-cell {
   display: flex; flex-direction: column; gap: 4px;

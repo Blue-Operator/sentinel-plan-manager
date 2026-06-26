@@ -81,13 +81,14 @@ icon-font requirement. (Europa was the pre-reskin face — do not reintroduce.)
 
 | Var | Dark | Light | Use |
 |-----|------|-------|-----|
-| `--bg` | `#000610` | `#f4f6fc` | Page background (dVPN deep navy) |
+| `--chrome-bg` | `#000101` | `#ffffff` | Sidebar + topbar (darkest app chrome, bg-deep) |
+| `--bg` | `#000610` | `#f4f6fc` | Page canvas (dVPN deep navy, bg-base) |
 | `--bg-base` | `#000610` | `#f4f6fc` | Solid background under layered surfaces |
-| `--bg-card` | `rgba(19,24,41,0.82)` | `rgba(255,255,255,0.94)` | Card surface (surface-1 over navy) |
-| `--bg-card-solid` | `#131829` | `#ffffff` | Solid card (surface-1) |
-| `--bg-card-hover` | `rgba(25,31,49,0.92)` | `#eef1fb` | Hover state on interactive cards (surface-2) |
-| `--bg-input` | `#191F31` | `#ffffff` | Form inputs, code blocks (surface-2) |
-| `--glass-bg` | `rgba(10,14,26,0.90)` | `rgba(255,255,255,0.88)` | Sidebar, topbar, modals |
+| `--bg-card` | `#191F31` | `#ffffff` | **Solid** card surface (surface-2) — pops on the dark canvas |
+| `--bg-card-solid` | `#191F31` | `#ffffff` | Solid card (surface-2) |
+| `--bg-card-hover` | `#26304C` | `#eef1fb` | Hover / raised state (surface-3) |
+| `--bg-input` | `#131829` | `#f1f4fc` | Form inputs — recessed within cards (surface-1) |
+| `--glass-bg` | `#191F31` | `#ffffff` | Floating panels (modal, login card, batch bar, chips) — surface-2 |
 | `--border` | `rgba(38,48,76,0.55)` | `rgba(31,54,124,0.12)` | Default divider (surface-3 hairline) |
 | `--border-hover` | `rgba(38,48,76,0.95)` | `rgba(31,54,124,0.22)` | Hover / focus outline |
 | `--border-strong` | `#1F367C` | `#1F367C` | Emphasised borders (indigo brand stroke) |
@@ -96,8 +97,8 @@ icon-font requirement. (Europa was the pre-reskin face — do not reintroduce.)
 | `--text-muted` | `#6B7A97` | `#6B7A97` | Placeholders, disabled, meta (slate-500) |
 | `--accent` | `#0156FC` | `#0156FC` | dVPN brand blue — primary actions |
 | `--accent-bright` | `#0184FC` | `#0046CE` | Interactive blue — links / hover |
-| `--accent-glow` | `rgba(1,86,252,0.20)` | `rgba(1,86,252,0.12)` | Soft ambient glow behind accent elements |
-| `--accent-dim` | `rgba(1,86,252,0.14)` | `rgba(1,86,252,0.08)` | Accent fill on badges / chips / active nav |
+| `--accent-glow` | `rgba(1,86,252,0.13)` | `rgba(1,86,252,0.12)` | Soft ambient glow behind accent elements (kept restrained) |
+| `--accent-dim` | `rgba(1,86,252,0.12)` | `rgba(1,86,252,0.08)` | Accent fill on badges / chips / active nav |
 | `--accent-hover` | `#0184FC` | `#0046CE` | Button hover |
 | `--green` | `#1FD18B` | `#0a9f63` | Success, registered state (cooled for navy) |
 | `--green-bright` | `#34E89C` | `#08b06c` | Success hover / emphasis |
@@ -133,7 +134,7 @@ reference the `-dim` variant.
 | `--shadow-sm` | `0 2px 8px rgba(0,6,16,0.35)` | `0 2px 8px rgba(0,16,46,0.06)` | Resting card (cool navy) |
 | `--shadow-md` | `0 8px 24px rgba(0,6,16,0.45)` | `0 8px 24px rgba(0,16,46,0.10)` | Hover, modals (dVPN card shadow) |
 | `--shadow-lg` | `0 20px 60px rgba(0,6,16,0.60)` | `0 20px 50px rgba(0,16,46,0.14)` | Top-level overlays (import, low-balance) |
-| `--shadow-accent` | `0 2px 18px rgba(18,49,109,0.45)` | `0 2px 18px rgba(1,86,252,0.18)` | Glow under primary CTAs |
+| `--shadow-accent` | `0 2px 14px rgba(18,49,109,0.28)` | `0 2px 18px rgba(1,86,252,0.18)` | Glow under primary CTAs (restrained) |
 | `--shadow-green`  | `0 0 24px rgba(31,209,139,0.20)`  | `0 0 24px rgba(10,159,99,0.16)`  | Glow under success states |
 
 ### Layout
@@ -152,10 +153,15 @@ reference the `-dim` variant.
 - **Page padding:** `28px` vertical / `32px` horizontal on `.page`
   containers. Compact pages use `.page-compact` (smaller card padding).
   Homepage uses `.page-home` (wider hero, centered stats row).
-- **Background wash:** two radial gradients layered on `body` — dVPN brand
-  blue (`#0156FC`) glow in the top-right, indigo (`#1F367C`) in the
-  bottom-left. Fixed-attached so the wash stays put during scroll. Mirrors
-  the dVPN home-screen "soft radial brand-blue glow."
+- **Dark-mode-first / restrained blue:** the canvas is deep navy
+  (`#000610`) and reads as near-black; the brand blue is reserved for
+  **primary actions and key accents** (CTAs, active nav, links, focus,
+  selected states) — it is NOT used to wash resting surfaces. Cards/strips
+  are flat dark (`--bg-card`), not blue-tinted. Ambient glows are kept low
+  (`--accent-glow`/`--shadow-accent` are intentionally subtle).
+- **Background wash:** two faint radial gradients in the far corners of
+  `body` — a whisper of brand blue top-right, indigo bottom-left (both
+  ≤0.07 alpha). Fixed-attached. Just enough depth without a "blue theme."
 - **Max content width:** hero title container caps at `1100px`
   (`.page-home .page-hero`). Default `.page` inherits the shell width.
 
