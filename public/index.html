@@ -1875,13 +1875,13 @@ html[data-theme="light"] .plan-card:hover {
 
 /* ─── Create Plan journey (stepper + audience picker + IBC rows) ─── */
 .journey {
-  max-width: 920px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
 }
 .journey-stepper {
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: center; justify-content: flex-start;
   gap: 0;
-  margin: 6px auto 22px;
+  margin: 6px 0 22px;
   max-width: 560px;
 }
 .journey-step {
@@ -8320,7 +8320,7 @@ function paintJourneyStep2() {
       { v: 31536000, l: '365 Days' },
     ].map(o => `<option value="${o.v}" ${o.v === S.create.duration ? 'selected' : ''}>${o.l}</option>`).join('');
     body.innerHTML = `
-      <div class="card" style="max-width:680px;margin:0 auto">
+      <div class="card" style="margin:0">
         <div class="card-header">
           <div style="display:flex;align-items:center;gap:10px">
             <span class="step-circle">1</span>
@@ -8350,7 +8350,7 @@ function paintJourneyStep2() {
         </div>
       </div>
 
-      <div class="card" style="max-width:680px;margin:14px auto 0">
+      <div class="card" style="margin:14px 0 0">
         <div class="card-header">
           <div style="display:flex;align-items:center;gap:10px">
             <span class="step-circle">2</span>
@@ -8416,7 +8416,7 @@ function paintJourneyStep2() {
   ].map(o => `<option value="${o.v}" ${o.v === S.create.duration ? 'selected' : ''}>${o.l}</option>`).join('');
 
   body.innerHTML = `
-    <div class="card" style="max-width:680px;margin:0 auto">
+    <div class="card" style="margin:0">
       <div class="card-header">
         <div style="display:flex;align-items:center;gap:10px">
           <span class="step-circle">A</span>
@@ -8443,7 +8443,7 @@ function paintJourneyStep2() {
       </div>
     </div>
 
-    <div class="card" style="max-width:680px;margin:14px auto 0">
+    <div class="card" style="margin:14px 0 0">
       <div class="card-header">
         <div style="display:flex;align-items:center;gap:10px">
           <span class="step-circle">B</span>
@@ -8564,7 +8564,7 @@ function paintJourneyStep3() {
       </div>`;
 
   body.innerHTML = `
-    <div class="card" style="max-width:680px;margin:0 auto">
+    <div class="card" style="margin:0">
       <div class="card-header">
         <div style="display:flex;align-items:center;gap:10px">
           <span class="step-circle">3</span>
